@@ -27,7 +27,6 @@ public class BeanClass{
 	}
 	
 	public String getPassWord() {
-		System.out.println("thangaraj");
 		return passWord;
 	}
 	public void setPassWord(String passWord) {
