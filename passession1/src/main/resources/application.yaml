@@ -1,0 +1,202 @@
+#######################################################
+#security.basic.enabled=false
+#######################################################       
+# EMBEDDED SERVER CONFIGURATION (ServerProperties)
+#######################################################
+server:
+    port: 8080
+    session-timeout: 600
+    context-path: /simple-api
+    ssl.enabled : false
+    ssl.key-store: C:/Program Files (x86)/Java/jdk1.7.0_80/jre/lib/security/keystore.jks
+    ssl.key-store-password: changeit
+    ssl.keyStoreProvider : SUN
+    ssl.keyStoreType : JKS
+    ssl.keyAlias: www.pas.com
+    context_parameters.log4jConfigLocation: classpath*:logging/log4j2-*.xml
+                
+#######################################################
+# if ssl is enabled configure the default port for http if required
+support_for_http_and_https: false
+http_port: 82
+#######################################################
+    
+#######################################################
+# configure the following parameters only when this is application web app.
+# until a centralized config is created.
+#configure host name and url for this application
+#URLs DEFINED FOR BROWSER COMMUNICATION
+#urls to be configured when setting for https
+#######################################################
+pas:
+    application_host_name :  www.pas.com
+    application_url : http://${pas.application_host_name}:8080/simple-api
+    
+    #urls to be configured when Reset password
+    application_ui_host_name :  www.pas.com
+    application_ui_url : http://${pas.application_ui_host_name}:86/simple-ui
+    
+    #configure host name and url for security web app.
+    security_host_name :  www.pas.com
+    security_url : http://${pas.security_host_name}:7860/security-web
+    
+    #configure host name and url for metadata web app.
+    metadata_host_name :  www.pas.com
+    metadata_url : http://${pas.metadata_host_name}:7861/metadata-web
+    
+    #URLs DEFINED FOR INTERNAL WAR COMMUNICATION
+    #urls to be configured when setting for https- incase internal war 
+    #communication also to be done through https
+    metadata_remote_host_name :  www.pas.com
+    metadata_remote_url : http://${pas.metadata_remote_host_name}:7861/metadata-web
+
+    security_remote_host_name :  www.pas.com
+    security_remote_url : http://${pas.security_remote_host_name}:7860/security-web
+
+    application_remote_host_name :  www.pas.com
+    application_remote_url : http://${pas.application_remote_host_name}:8080/simple-api
+
+    admin_api_host_name :  www.pas.com
+    admin_api_url : http://${pas.admin_api_host_name}:7862/admin-api
+    
+    # Change this if you are providing a custom login page.
+    # if page in application is provided, exclude that resource from protection as in the following example
+    #  <security:http pattern="/custom-login.jsp" security="none" request-matcher="ant"/>
+    login_url : ${pas.application_ui_url}/login.jsp
+    
+    defaultHomePage : ${pas.application_ui_url}/listuser.mvc
+    
+    locale_service_remote_url : ${pas.admin_api_url}
+    
+    #configure host name and url for Email API.    
+    email_remote_host_name : www.pas.com
+    email_remote_url : http://${pas.email_remote_host_name}:7866/email-web
+
+    transaction.enabled: true
+    #accessDenied page
+    access_denied_url : /accessdenied.jsp
+    #######################################################
+    #Root company 
+    #######################################################
+    companyName : Fusion
+    description	: Fusion
+    domainName : fusion
+    companyType : PASCOMPANY
+
+    #######################################################
+    #Encryption Details- Security token(EmailCreation)
+    #######################################################
+    encryption_salt : user@domain
+    encrypt_password : domain@user
+    no_of_iteration : 1
+
+    #######################################################
+    #PasswordReset for first time -Details
+    #expiry value in days
+    #######################################################
+    expiryValue : 5
+
+    #######################################################
+    #Data for Keystore
+    #######################################################
+    Store_Location : keystore/brownstoneStore.jceks
+    Store_Pass : brownstone123
+    Key_Pass : keypassword
+    alias : brownstone
+
+    #######################################################
+    #Data for Application excel file Location
+    # excels can be loaded from either the classpath or from absolute path.
+    #######################################################
+    fileName_Prefix : brownstone_app_init
+    XL_Location : excels
+    XL_Prefix : app
+
+    #######################################################
+    # Poll the following url for starting the deployment of the application. A get request will be issued to that page and a return value of "YES" or "yes" is required to proceed. 
+    # Till then application will loop without starting the initialization. After the expiry of number of attempts, application will throw an exception and exit without initialization. 
+    #######################################################
+    poll_enabled : true
+    poll_attempts : 10
+    poll_attempts_delay_in_seconds : 30
+    poll_url : ${pas.metadata_remote_url}/poll, ${pas.security_remote_url}/poll
+
+    
+    #######################################################
+    #https-configuring client side truststore and ketysore
+    #Enable this for protection of remote web services with protection
+    #######################################################
+    #client_keystore : C:/Program Files (x86)/Java/jdk1.7.0_80/jre/lib/security/keystore.jks
+    #client_truststore : C:/Program Files (x86)/Java/jdk1.7.0_80/jre/lib/security/keystore.jks
+    #cert_provider : SunX509
+    #cert_file_type : jks
+    #cert_password : changeit
+
+    #######################################################
+    #Specific module name for logger
+    #######################################################
+    logged_module_name : simple-api
+    application_module_name : simple-api
+
+    #######################################################
+    #rabbitmq properties
+    #######################################################
+    rabbitmq:
+        host : localhost
+        port : 5672
+        username : guest
+        password : guest
+        exchangename : pasExchange
+        hierarchyqueuename : simpleAPIHierarchyQueue
+        userqueuename : simpleAPIUserQueue
+        userdeletequeuename : simpleAPIUserDeleteQueue
+        userupdatedqueuename : simpleAPIUserUpdatedQueue
+
+    #######################################################
+    # CAUTION: PLEASE READ COMMENTS BEFORE ENTERING VALUES. CAN CAUSE CATASTROPHIC FAILURE
+    # if the hierarchy sync finds a a company type entity locally it will skip sync
+    # if we need to force sync despite type being managed locally, include the entities here.
+    #######################################################
+    hierarchy_sync_exclude : 
+
+    #######################################################        
+    # Whitelist urls to be validated for application module domain
+    #e.g. for multiple domains to be seperated by commas whitelist_urls = www.pas.com,www.test.com,www.sample.com
+    #######################################################
+    whitelist_urls : www.pas.com
+
+
+#######################################################
+#spring boot properties
+#######################################################
+spring:
+    main:
+       show-banner: true
+       
+######################################################    
+# DATABASE CONFIGURATIONS
+#######################################################
+spring.datasource.jdbcUrl : jdbc:postgresql://localhost:5432/passession1
+spring.datasource.user : postgres
+spring.datasource.password : Pavs@april3
+spring.datasource.minPoolSize : 5
+spring.datasource.maxPoolSize : 20
+spring.datasource.acquireIncrement : 1
+spring.datasource.idleConnectionTestPeriod : 3000
+spring.datasource.testConnectionOnCheckout : true
+spring.datasource.driverClass : org.postgresql.Driver
+
+spring.jpa.database-platform : org.hibernate.dialect.PostgreSQL82Dialect
+spring.jpa.show-sql : false
+spring.jpa.hibernate.ddl-auto : update
+spring.jpa.generate-ddl : true
+spring.jpa.properties.hibernate.cache.use_second_level_cache : true
+spring.jpa.properties.hibernate.cache.use_query_cache : true
+spring.jpa.properties.hibernate.cache.use_structured_entries : false
+spring.jpa.properties.hibernate.cache.use_minimal_puts : false
+spring.jpa.properties.hibernate.cache.generate_statistics : false
+spring.jpa.properties.hibernate.cache.provider_configuration : /ehcache.xml
+spring.jpa.properties.hibernate.cache.region.factory_class : org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+spring.jpa.properties.javax.persistence.sharedCache.mode : ENABLE_SELECTIVE
+
+
