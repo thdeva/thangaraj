@@ -1,0 +1,29 @@
+<!-- <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+     <title>Spring 4 Security + Thymeleaf Integration Example</title>
+</head>
+<body>
+	<h3>Spring 4 Security + Thymeleaf Integration Example</h3>
+	<p th:if="${param.error}">Bad Credentials</p>
+	<form th:action="@{/appLogin}" method="POST">
+		User Name : <input type="text" name="app_username" /> <br /><br /> 
+		Password: <input type="password" name="app_password" /> <br /><br />
+		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+		<input type="submit" value="Login" />
+	</form>
+</body>
+</html>
+ -->
+ 
+ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en"></head>
+<body>
+<tr th:each="customer : ${customers}">
+    <td th:text="${customer.identity}">001</td>
+    <td th:text="${customer.name}">Name</td>
+    <td th:text="${customer.address}">Address</td>
+    <td th:text="${customer.age}">Age</td>
+</tr>
+</body>
+</html>

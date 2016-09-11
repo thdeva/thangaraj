@@ -1,0 +1,15 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+     <title>Fusion Management System</title>
+</head>
+<body>
+	<h3>Fusion Management System</h3>
+	<p th:if="${param.error}">Bad Credentials</p>
+	<form th:action="@{/home}"  th:object="${loginInfo}" method="POST">
+		User Name : <input type="text" name="userName" /> <br /><br /> 
+		Password: <input type="password" name="passWord" /> <br /><br />
+		<!-- <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/> -->
+		<input type="submit" value="Login" />
+	</form>
+</body>
+</html>
