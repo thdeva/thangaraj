@@ -7,7 +7,7 @@ public class BeanClass {
 	private String userName;
 
 	private String passWord;
-
+dsadsadsdsdsda
 	public int getId() {
 		return Id;
 	}
